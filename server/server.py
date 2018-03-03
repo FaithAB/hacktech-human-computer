@@ -18,10 +18,17 @@ async def handler(websocket, path):
         print("Connected: {}".format(len(connected)))
 
 bit = False # Single bit we're trying to flip
-def update():
+async def update():
+    global connected
     while True:
         print("Update")
-        yield from asyncio.sleep(1)
+        for ws in connected:
+            try:
+                mssg = ws.recv()
+                ws.send(str(bit))
+            except:
+                connected.remove(ws)
+        await asyncio.sleep(1)
 
 # Handles incoming connections
 async def connect(websocket, path):
