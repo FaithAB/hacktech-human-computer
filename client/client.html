@@ -21,7 +21,47 @@
 
         <script>
         $(function() {
-            console.log("Hello, world");
+            function pinSet(pin, val) {
+                var btn;
+                if (pin == 0) {
+                    btn = $("#inPin .btn")
+                } else {
+                    btn = $("#outPin .btn")
+                }
+
+
+                //btn.removeClass("btn-danger");
+                if (val) {
+                    btn.stop().addClass("btn-success");
+                } else {
+                    btn.stop().removeClass("btn-success"); //btn.addClass("btn-danger");
+                }
+            }
+            function pinGet(pin) {
+                var btn;
+                if (pin == 0) {
+                    btn = $("#inPin .btn")
+                } else {
+                    btn = $("#outPin .btn")
+                }
+
+                return btn.hasClass("btn-success");
+            }
+
+            // $("#inPin .btn").click(function () {
+            //     pinSet(1, ! pinGet(1));
+            // });
+
+            var down = false;
+            $("#outPin .btn").mousedown(function() {
+                down = true;
+            }).mouseup(function() {
+                down = false;
+            });
+
+            setInterval(function () {
+                pinSet(0, down);
+            }, 100);
         });
         </script>
     </head>
@@ -34,8 +74,35 @@
     </div>
 
     <div class="row">
-        <div id="instructions" class="col-xs-12">
+        <h4 class="col col-xs-12">Instructions</h4>
+    </div>
+    <div class="row">
+        <div id="instructions" class="col col-xs-12">
             Hello, world!
+        </div>
+    </div>
+
+    <div class="row">
+        <h4 class="col col-xs-12">Interface</h4>
+    </div>
+    <div class="row interface">
+        <div class="col col-xs-2 col-xs-offset-4">
+            &rarr;
+        </div>
+        <div id="inPin" class="col col-xs-6">
+            <a class="btn btn-lg">
+                IN
+            </a>
+        </div>
+    </div>
+    <div class="row interface">
+        <div class="col col-xs-2 col-xs-offset-4">
+            &larr;
+        </div>
+        <div id="outPin" class="col col-xs-6">
+            <a class="btn btn-lg">
+                OUT
+            </a>
         </div>
     </div>
 
