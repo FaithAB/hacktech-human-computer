@@ -1,19 +1,14 @@
-
 #instructions{
     text-align: center;
     background: #eeeeee;
 }
 
-/*
-TODO: make CSS less convoluted
-*/
-.interface :nth-child(1) {
-    text-align: right;
-}
-.interface :nth-child(2) :first-child {
-    text-align: center;
-}
 
 .interface .btn {
     width: 100%;
+    text-align: center;
+}
+
+.interface .pin {
+    text-align: right;
 }

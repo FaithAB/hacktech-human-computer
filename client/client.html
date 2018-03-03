@@ -20,15 +20,21 @@
         <link rel="stylesheet" href="css/main.css">
 
         <script>
+        let SERVER_LOCATION = "ws://localhost:8000";
+        var socket = new WebSocket(SERVER_LOCATION);
+
+        // socket.onopen = function (event) {
+        //     socket.send("According to all known laws of aviation, there is no way a bee should be able to fly.");
+        // };
+
         $(function() {
             function pinSet(pin, val) {
                 var btn;
                 if (pin == 0) {
-                    btn = $("#inPin .btn")
+                    btn = $("#inPin")
                 } else {
-                    btn = $("#outPin .btn")
+                    btn = $("#outPin")
                 }
-
 
                 //btn.removeClass("btn-danger");
                 if (val) {
@@ -40,28 +46,27 @@
             function pinGet(pin) {
                 var btn;
                 if (pin == 0) {
-                    btn = $("#inPin .btn")
+                    btn = $("#inPin")
                 } else {
-                    btn = $("#outPin .btn")
+                    btn = $("#outPin")
                 }
 
                 return btn.hasClass("btn-success");
             }
 
-            // $("#inPin .btn").click(function () {
-            //     pinSet(1, ! pinGet(1));
-            // });
-
             var down = false;
-            $("#outPin .btn").mousedown(function() {
+            $("#outPin").mousedown(function() {
                 down = true;
             }).mouseup(function() {
                 down = false;
             });
 
             setInterval(function () {
-                pinSet(0, down);
+                socket.send(down);
             }, 100);
+            socket.onmessage = function (event) {
+                pinSet(0, event.data == "true");
+            }
         });
         </script>
     </head>
@@ -86,23 +91,23 @@
         <h4 class="col col-xs-12">Interface</h4>
     </div>
     <div class="row interface">
-        <div class="col col-xs-2 col-xs-offset-4">
-            &rarr;
-        </div>
-        <div id="inPin" class="col col-xs-6">
-            <a class="btn btn-lg">
+        <div class="col col-xs-10">
+            <a id="inPin" class="btn btn-lg">
                 IN
             </a>
         </div>
-    </div>
-    <div class="row interface">
-        <div class="col col-xs-2 col-xs-offset-4">
+        <div class="col col-xs-2">
             &larr;
         </div>
-        <div id="outPin" class="col col-xs-6">
-            <a class="btn btn-lg">
+    </div>
+    <div class="row interface">
+        <div class="col col-xs-11">
+            <a id="outPin" class="btn btn-lg">
                 OUT
             </a>
+        </div>
+        <div class="col col-xs-1">
+            &rarr;
         </div>
     </div>
 
