@@ -23,10 +23,6 @@
         let SERVER_LOCATION = "ws://localhost:8765";
         var socket = new WebSocket(SERVER_LOCATION);
 
-        // socket.onopen = function (event) {
-        //     socket.send("According to all known laws of aviation, there is no way a bee should be able to fly.");
-        // };
-
         $(function() {
             function pinSet(pin, val) {
                 var btn;
@@ -60,6 +56,8 @@
             }).mouseup(function() {
                 down = false;
             });
+            // TODO: touch screen support
+
 
             setInterval(function () {
                 socket.send(down);
@@ -71,8 +69,7 @@
         });
         </script>
     </head>
-
-    <div class="container-fluid">
+    <body class="container-fluid">
 
     <div class="jumbotron">
         <h1 class="row">The Human Computer</h1>
@@ -112,5 +109,5 @@
         </div>
     </div>
 
-    </div>
+    </body>
 </html>

@@ -8,16 +8,15 @@ from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer, SimpleSSLWeb
 clients = set()
 class Server(WebSocket):
     def handleMessage(self):
-       print(client.index(self), self.data)
-       for client in clients:
-          if client != self:
-             client.sendMessage(self.data)
+        for client in clients:
+            if client != self:
+                client.sendMessage(self.data)
 
     def handleConnected(self):
-       clients.add(self)
+        clients.add(self)
 
     def handleClose(self):
-       clients.remove(self)
+        clients.remove(self)
 
 
 server = SimpleWebSocketServer("localhost", 8765, Server)
@@ -27,5 +26,4 @@ def close_sig_handler(signal, frame):
     sys.exit()
 
 signal.signal(signal.SIGINT, close_sig_handler)
-
 server.serveforever()
