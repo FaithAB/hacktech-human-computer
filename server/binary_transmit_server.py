@@ -19,7 +19,7 @@ class Server(WebSocket):
         clients.remove(self)
 
 
-server = SimpleWebSocketServer("localhost", 8765, Server) # TODO: change to domain name
+server = SimpleWebSocketServer("localhost", 8766, Server) # TODO: change to domain name
 
 def close_sig_handler(signal, frame):
     server.close()
