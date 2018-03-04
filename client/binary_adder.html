@@ -76,6 +76,7 @@
                 $("#a").html(j.a);
                 $("#b").html(j.b);
                 $("#c").html(j.c);
+                $("#clientID").html(j.id);
             }
 
             var toSend = {};
@@ -152,9 +153,39 @@
     <div id="instructions" class="bit-interface middle-col middle-row">
         <h2><a href="/">The Human Computer</a></h2>
         <h3>Binary Adder</h3>
+        <h3 id="clientID"></h3>
 
         <b>Instructions:</b>
-        Hello, world!
+        You are simulating a single <i>binary full adder</i>,
+        which adds three bits to form a two-bit output corresponding to the number of active input bits.
+        <!-- <table>
+            <th>
+                <td>In bits</td>
+                <td>Carry out</td>
+                <td>Digit out</td>
+            </th>
+            <tr>
+                <td>0000</td>
+                <td>Carry out</td>
+                <td>Digit out</td>
+            </tr>
+            <tr>
+                <td>In bits</td>
+                <td>Carry out</td>
+                <td>Digit out</td>
+            </tr>
+            <tr>
+                <td>In bits</td>
+                <td>Carry out</td>
+                <td>Digit out</td>
+            </tr>
+            <tr>
+                <td>In bits</td>
+                <td>Carry out</td>
+                <td>Digit out</td>
+            </tr>
+        </table> -->
+
     </div>
 
     </body>
