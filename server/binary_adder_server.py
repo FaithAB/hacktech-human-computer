@@ -79,6 +79,7 @@ async def update():
                     "a":rm.a[i], 
                     "b":rm.b[i], 
                     "c":carry,
+                    "s":rm.s,
                     "id":i
                 }
                 mssg = json.dumps(obj)
