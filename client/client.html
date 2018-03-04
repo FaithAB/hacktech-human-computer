@@ -63,6 +63,7 @@
 
             setInterval(function () {
                 socket.send(down);
+                pinSet(1, down);
             }, 100);
             socket.onmessage = function (event) {
                 pinSet(0, event.data == "true");
@@ -91,18 +92,18 @@
         <h4 class="col col-xs-12">Interface</h4>
     </div>
     <div class="row interface">
-        <div class="col col-xs-10">
-            <a id="inPin" class="btn btn-lg">
+        <div class="col col-xs-11">
+            <div id="inPin" class="pin btn-lg">
                 IN
-            </a>
+            </div>
         </div>
-        <div class="col col-xs-2">
+        <div class="col col-xs-1">
             &larr;
         </div>
     </div>
     <div class="row interface">
         <div class="col col-xs-11">
-            <a id="outPin" class="btn btn-lg">
+            <a id="outPin" class="pin btn btn-lg">
                 OUT
             </a>
         </div>

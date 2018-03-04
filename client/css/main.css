@@ -3,12 +3,7 @@
     background: #eeeeee;
 }
 
-
-.interface .btn {
+.interface .pin {
     width: 100%;
     text-align: center;
-}
-
-.interface .pin {
-    text-align: right;
 }
