@@ -16,26 +16,27 @@
             box-sizing:border-box;
             padding:1.5in;
             height:100%;
+            background:linear-gradient(#EEEEEE, #FFFFFF);
         }
         h1{
-            font-family:Sans;
-            font-weight:300;
+            font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+            font-weight:500;
         }
         .edge {
             position: fixed;
             border: 1px solid #000000;
             padding:0.5em;
-            transition:background-color 0.1s;
+            transition:background-color 0.15s;
             text-align:center;
             vertical-align:center;
         }
         .edge b ,.edge span{
             opacity:0.94;
             color:#FFFFFF;
-            font-size:1.3em;
         }
         .edge span{
-            padding-top:0.75in;
+            padding-top:0.5in;
+            font-size:3em;
         }
         .btn{
             position:absolute;
@@ -47,10 +48,13 @@
             //transition:background-color 0.2s;
         }
         .hi{
-            background-color:var(--lightBlue);
+            background-color:var(--hiColor);
         }
         .lo{
-            background-color:var(--darkBlue);
+            background-color:var(--loColor);
+        }
+        .correct{
+            background-color:var(--themeGreen);
         }
 
         .left {
@@ -58,30 +62,40 @@
             top:1.5in;
             width:1in;
             height:2in;
+            --hiColor:#888888;
+            --loColor:#111111;
         }
         .right {
             right: 0;
             top:1.5in;
             width:1in;
             height:2in;
+            --hiColor:var(--lightBlue);
+            --loColor:var(--darkBlue);
         }
         .topa {
             top: 0;
-            left:20%;
+            left:0.5in;
             width:1.5in;
             height:1in;
+            --hiColor:#888888;
+            --loColor:#111111;
         }
         .topb {
             top: 0;
-            right:20%;
+            right:0.5in;
             width:1.5in;
             height:1in;
+            --hiColor:#888888;
+            --loColor:#111111;
         }
         .bottom {
             bottom: 0;
             left:30%;
             width:2in;
             height:1in;
+            --hiColor:var(--lightBlue);
+            --loColor:var(--darkBlue);
         }
 
         </style>
@@ -107,6 +121,11 @@
             if (pins["a"] != j["a"]){togglePin(elems["a"])}
             if (pins["b"] != j["b"]){togglePin(elems["b"])}
             if (pins["ci"] != j["c"]){togglePin(elems["ci"])}
+            if (j["correct"]){
+                elems["s"].parentNode.classList.add("correct");
+            } else {
+                elems["s"].parentNode.classList.remove("correct");
+            }
             elems["id"].innerHTML = j.id;
         }
 
@@ -185,6 +204,9 @@
         <h1><a href="/">The Human Computer</a></h1>
         <h2>Binary Adder</h2>
         <p>Id:<span id="id">#</span></p>
+        <p>You are simulating a single binary full adder, 
+            which adds three bits to form a two-bit output 
+            corresponding to the number of active input bits.</p>
 
     </body>
 </html>
