@@ -16,7 +16,12 @@
             box-sizing:border-box;
             padding:1.5in;
             height:100%;
+            overflow:scroll;
             background:linear-gradient(#EEEEEE, #FFFFFF);
+        }
+        .wrap{
+            height:100%;
+            overflow:scroll;
         }
         h1{
             font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
@@ -206,12 +211,19 @@
         <span class="btn" id="c">0</span>
     </div>
 
+    <div class="wrap">
         <h1><a href="/">The Human Computer</a></h1>
         <h2>Binary Adder</h2>
-        <p>Id:<span id="id">#</span></p>
-        <p>You are simulating a single binary full adder, 
-            which adds three bits to form a two-bit output 
-            corresponding to the number of active input bits.</p>
-
+        <p>One of the simplest operations a computer does is add two binary integers</p>
+        <p>It does this using units called full binary adders.</p>
+        <p>Each adder takes two digits from the input numbers,
+            as well as a "carry bit," which represents the digit
+            carried over from the previous place</p>
+        <p>It outputs the sum of all three bits using two bits-
+            the ones place in the digit output, and the twos
+            place in its own carry bit.
+        <p> Here, you are adder number <span id="id">#</span> in a long chain of adders.</p>
+        <p>Can you all compute the correct sum?</p>
+    </div>
     </body>
 </html>
