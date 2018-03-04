@@ -66,6 +66,7 @@ async def handler(websocket, path):
     except Exception as e:
         # Unregister.
         print(e)
+        rooms[room].rm(websocket)
         connected.remove(websocket)
 
 async def update():
@@ -83,11 +84,7 @@ async def update():
                     "id":i
                 }
                 mssg = json.dumps(obj)
-                try:
-                    await rm.connected[i].send(mssg)
-                except:
-                    rm.rm(rm.connected[i])
-                    i -= 1
+                await rm.connected[i].send(mssg)
         await asyncio.sleep(0.5)
 
 start_server = websockets.serve(handler, 'localhost', 8767)
