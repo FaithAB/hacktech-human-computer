@@ -56,7 +56,17 @@
             }).mouseup(function() {
                 down = false;
             });
-            // TODO: touch screen support
+
+            // touchscreen support
+            addEventListener("touchstart", function(event){
+                event.preventDefault();
+                down = true;
+            }, true);
+            addEventListener("touchend", function(event){
+                event.preventDefault();
+                down = false;
+            }, true);
+
 
 
             setInterval(function () {
