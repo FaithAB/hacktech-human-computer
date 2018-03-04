@@ -8,45 +8,32 @@ async def handler(websocket, path):
     # Register.
     connected.add(websocket)
     print("Connected: {}".format(len(connected)))
-    try:
-        # Implement logic here.
-        await asyncio.wait([ws.send("Hello!") for ws in connected])
-        await asyncio.sleep(10)
-    finally:
-        # Unregister.
-        connected.remove(websocket)
-        print("Connected: {}".format(len(connected)))
+    #try:
+    #    # Implement logic here.
+    #    await asyncio.wait([ws.send("Hello!") for ws in connected])
+    #    await asyncio.sleep(1)
+    #finally:
+    #    # Unregister.
+    #    connected.remove(websocket)
+    #    print("Connected: {}".format(len(connected)))
 
 bit = False # Single bit we're trying to flip
 async def update():
     global connected
+    disconnected = set()
     while True:
-        print("Update")
+        print("Update: {}".format(len(connected)))
         for ws in connected:
             try:
-                mssg = ws.recv()
-                ws.send(str(bit))
-            except:
-                connected.remove(ws)
+                mssg = await ws.recv()
+                await ws.send(str(bit))
+            except Exception as e:
+                print(e)
+                disconnected.add(ws)
+        for ws in disconnected:
+            connected.remove(ws)
+            print("Connected: {}".format(len(connected)))
         await asyncio.sleep(1)
-
-# Handles incoming connections
-async def connect(websocket, path):
-    isSender = await websocket.recv()
-    print("< {}".format(isSender))
-
-    if (isSender == "true"):
-        while True:
-            mssg = websocket.recv()
-            await sender(mssg)
-    else:
-        while True:
-            if (bit):
-                print("> {}".format("true"))
-                await websocket.send("true")
-            else:
-                print("> {}".format("false"))
-                await websocket.send("false")
 
 start_server = websockets.serve(handler, 'localhost', 8765)
 
