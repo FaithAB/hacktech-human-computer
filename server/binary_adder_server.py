@@ -36,7 +36,7 @@ async def update():
             await ws.send(str(bit).lower())
         await asyncio.sleep(0.1)
 
-start_server = websockets.serve(handler, 'localhost', 8765)
+start_server = websockets.serve(handler, 'localhost', 8767)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.async(update())
