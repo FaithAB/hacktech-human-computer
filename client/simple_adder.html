@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>The Human Computer</title>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="theme.css" rel="stylesheet">
+
+        <style>
+        html{height:100%;}
+        body{
+            margin:0;
+            box-sizing:border-box;
+            padding:1.5in;
+            height:100%;
+        }
+        h1{
+            font-family:Sans;
+            font-weight:300;
+        }
+        .edge {
+            position: fixed;
+            border: 1px solid #000000;
+            padding:0.5em;
+            transition:background-color 0.1s;
+            text-align:center;
+            vertical-align:center;
+        }
+        .edge b ,.edge span{
+            opacity:0.94;
+            color:#FFFFFF;
+            font-size:1.3em;
+        }
+        .edge span{
+            padding-top:0.75in;
+        }
+        .btn{
+            position:absolute;
+            z-index:-1;
+            left:0;top:0;
+            display:block;
+            width:100%;
+            height:100%;
+            //transition:background-color 0.2s;
+        }
+        .hi{
+            background-color:var(--lightBlue);
+        }
+        .lo{
+            background-color:var(--darkBlue);
+        }
+
+        .left {
+            left: 0;
+            top:1.5in;
+            width:1in;
+            height:2in;
+        }
+        .right {
+            right: 0;
+            top:1.5in;
+            width:1in;
+            height:2in;
+        }
+        .topa {
+            top: 0;
+            left:20%;
+            width:1.5in;
+            height:1in;
+        }
+        .topb {
+            top: 0;
+            right:20%;
+            width:1.5in;
+            height:1in;
+        }
+        .bottom {
+            bottom: 0;
+            left:30%;
+            width:2in;
+            height:1in;
+        }
+
+        </style>
+
+        <script>
+        let SERVER_LOCATION = "ws://localhost:8767"; // TODO: change to domain name
+        var socket = new WebSocket(SERVER_LOCATION);
+
+        socket.onopen = function () {
+            var roomName = prompt("Room name:", "Hacktech");
+            socket.send(JSON.stringify({"room": roomName}));
+        };
+        var pins = {
+            "a":0,
+            "b":0,
+            "c":0,
+            "ci":0,
+            "s":0
+        }
+        socket.onmessage = function (event) {
+            var j = JSON.parse(event.data);
+            console.log(j);
+            if (pins["a"] != j["a"]){togglePin(elems["a"])}
+            if (pins["b"] != j["b"]){togglePin(elems["b"])}
+            if (pins["ci"] != j["c"]){togglePin(elems["ci"])}
+            elems["id"].innerHTML = j.id;
+        }
+
+        var toSend = {
+            "c":0,
+            "s":0
+        };
+        function sendMaybe() {
+            if (typeof toSend.c != 'undefined' && typeof toSend.s != 'undefined') {
+                var toSendStr = JSON.stringify(toSend);
+                //console.log("sent: ", toSendStr);
+                socket.send(toSendStr);
+            }
+        }
+
+        function toggleInput(pin){
+            togglePin(pin);
+            toSend[pin.id] = pins[pin.id];
+        }
+        function togglePin(pin){
+            //console.log(pin);
+            pin.parentNode.classList.toggle("hi");
+            pin.parentNode.classList.toggle("lo");
+            pins[pin.id] = (pins[pin.id] == 0)?1:0;
+            pin.innerHTML = (pin.innerHTML == "0")?1:0;
+            toSend[pin.id] = pin.innerHTML;
+        }
+
+        var elems = {};
+        window.addEventListener("load", function(){
+            console.log("init");
+            var ids = ["a", "b", "ci", "c", "s", "id"];
+            for (i in ids) {
+                id = ids[i]
+                elems[id] = document.getElementById(id);
+            }
+            var events = ["mousedown", "mouseup", "touchstart", "touchend"];
+            for (i in events){
+                e = events[i];
+                elems["c"].addEventListener(e, function(elem){
+                    return function(){toggleInput(elem);};
+                }(elems["c"]));
+                elems["s"].addEventListener(e, function(elem){
+                    return function(){toggleInput(elem);};
+                }(elems["s"]));
+            }
+            setInterval(sendMaybe, 500);
+        })
+        </script>
+    </head>
+    <body>
+    <div class="edge topa lo">
+        <b>Digit Input</b><br>
+        <span class="btn" id="a">0</span>
+    </div>
+    <div class="edge topb lo">
+        <b>Digit Input</b><br>
+        <span class="btn" id="b">0</span>
+    </div>
+
+    <div class="edge bottom lo">
+        <b>Digit Output</b><br>
+        <span class="btn" id="s">0</span>
+    </div>
+
+    <div class="edge left lo">
+        <b>Carry Input</b><br>
+        <span class="btn" id="ci">0</span>
+    </div>
+
+    <div class="edge right lo">
+        <b>Carry Output</b><br>
+        <span class="btn" id="c">0</span>
+    </div>
+
+        <h1><a href="/">The Human Computer</a></h1>
+        <h2>Binary Adder</h2>
+        <p>Id:<span id="id">#</span></p>
+
+    </body>
+</html>
