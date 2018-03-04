@@ -65,6 +65,11 @@
         let SERVER_LOCATION = "ws://localhost:8767"; // TODO: change to domain name
         var socket = new WebSocket(SERVER_LOCATION);
 
+        socket.onopen = function () {
+            var roomName = prompt("Room name:", "Hacktech");
+            socket.send(JSON.stringify({"room": roomName}));
+        };
+
         $(function() {
             socket.onmessage = function (event) {
                 var j = JSON.parse(event.data);
@@ -74,7 +79,6 @@
             }
 
             var toSend = {};
-            var sent = false;
             function sendMaybe() {
                 if (typeof toSend.c != 'undefined' && typeof toSend.s != 'undefined') {
                     toSend = JSON.stringify(toSend);
