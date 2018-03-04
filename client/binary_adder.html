@@ -18,14 +18,47 @@
 
         <!-- For my own CSS -->
         <style>
-        #instructions{
-            text-align: center;
-            background: #eeeeee;
+        .bit-interface {
+            position: fixed;
+            border: 1px solid #000000;
+            padding: 10px 10px 10px 10px;
         }
 
-        .right-align {
-            text-align: right;
+        .middle-row {
+            height: 3in;
+            top: 50%;
+            margin-top: -1.5in;
         }
+        .middle-col {
+            width: 2in;
+            left: 50%;
+            margin-left: -1in;
+            text-align: center;
+        }
+        .left {
+            left: 0;
+            width: 1in;
+        }
+        .right {
+            right: 0;
+            width: 1in
+        }
+        .top {
+            top: 0;
+            height: 1in;
+        }
+        .bottom {
+            bottom: 0;
+            height: 1in;
+        }
+        #instructions {
+            background-color: #eeeeee;
+        }
+
+        .btn-lg {
+            width: 100%;
+        }
+
         </style>
 
         <script>
@@ -52,64 +85,73 @@
 
             $("#outPinC0").click(function () {
                 toSend.c = 0;
-                $("#outPinC0, #outPinC1").prop('disabled', true);
                 sendMaybe();
+
+                $("#outPinC0").attr("disabled", true);
+                $("#outPinC1").attr("disabled", false);
             });
             $("#outPinC1").click(function () {
                 toSend.c = 1;
-                $("#outPinC0, #outPinC1").prop('disabled', true);
                 sendMaybe();
+
+                $("#outPinC0").attr("disabled", false);
+                $("#outPinC1").attr("disabled", true);
             });
             $("#outPinS0").click(function () {
                 toSend.s = 0;
-                $("#outPinS0, #outPinS1").prop('disabled', true);
                 sendMaybe();
+
+                $("#outPinS0").attr("disabled", true);
+                $("#outPinS1").attr("disabled", false);
             });
             $("#outPinS1").click(function () {
                 toSend.s = 1;
-                $("#outPinS0, #outPinS1").prop('disabled', true);
                 sendMaybe();
+
+                $("#outPinS0").attr("disabled", false);
+                $("#outPinS1").attr("disabled", true);
             });
         });
         </script>
     </head>
     <body class="container-fluid">
-
-    <div class="jumbotron">
-        <h1 class="row">The Human Computer</h1>
-        <h4 class="row">Binary Adder</h4>
+    <div class="bit-interface top middle-col">
+        <b>Input Bits</b><br>
+        <span id="a">Loading...</span>
+        &nbsp; &nbsp;
+        <span id="b">Loading...</span>
     </div>
 
-    <div class="row">
-        <h4 class="col col-xs-12">Instructions</h4>
-    </div>
-    <div class="row">
-        <div id="instructions" class="col col-xs-12">
-            Hello, world!
+    <div class="bit-interface bottom middle-col">
+        <b>Digit Output</b><br>
+
+        <div class="btn-group">
+            <button class="btn btn-lg btn-success active" id="outPinS0">0</button>
+            <button class="btn btn-lg btn-danger" id="outPinS1">1</button>
         </div>
     </div>
 
-    <table cellpadding="50">
-        <tr>
-            <td id="a">Loading...</td>
-            <td id="b">Loading...</td>
-        </tr>
-        <tr>
-            <td id="c">Loading...</td>
-            <td>
-                <button id="outPinC0">0</button>
-                <button id="outPinC1">1</button>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" style="text-align: center;">
-                <button id="outPinS0">0</button>
-                <button id="outPinS1">1</button>
-            </td>
-        </tr>
-    </table>
+    <div class="bit-interface left middle-row">
+        <b>Carry Input</b><br>
+        <div id="c">Loading...</div>
+    </div>
 
-    </table>
+    <div class="bit-interface right middle-row">
+        <b>Carry Output</b><br>
+
+        <div class="btn-group btn-group-vertical">
+            <button class="btn btn-lg btn-success active" id="outPinC0">0</button>
+            <button class="btn btn-lg btn-danger" id="outPinC1">1</button>
+        </div>
+    </div>
+
+    <div id="instructions" class="bit-interface middle-col middle-row">
+        <h2><a href="/">The Human Computer</a></h2>
+        <h3>Binary Adder</h3>
+
+        <b>Instructions:</b>
+        Hello, world!
+    </div>
 
     </body>
 </html>
