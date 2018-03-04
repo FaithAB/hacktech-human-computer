@@ -1,6 +1,7 @@
 import asyncio
 import signal
 import websockets
+import sys
 
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer, SimpleSSLWebSocketServer
 
