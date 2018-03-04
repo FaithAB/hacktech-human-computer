@@ -7,16 +7,17 @@ from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer, SimpleSSLWeb
 
 clients = set()
 class Server(WebSocket):
-   def handleMessage(self):
-      for client in clients:
-         if client != self:
-            client.sendMessage(self.data)
+    def handleMessage(self):
+       print(client.index(self), self.data)
+       for client in clients:
+          if client != self:
+             client.sendMessage(self.data)
 
-   def handleConnected(self):
-      clients.add(self)
+    def handleConnected(self):
+       clients.add(self)
 
-   def handleClose(self):
-      clients.remove(self)
+    def handleClose(self):
+       clients.remove(self)
 
 
 server = SimpleWebSocketServer("localhost", 8765, Server)
