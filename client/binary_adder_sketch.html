@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>The Human Computer</title>
+
+        <!-- Bootstrap -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+        <!-- Bootstrap -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+        <!-- For my own CSS -->
+        <style>
+        #instructions{
+            text-align: center;
+            background: #eeeeee;
+        }
+
+        .pin {
+            width: 100%;
+        }
+        </style>
+
+        <script>
+        let SERVER_LOCATION = "ws://localhost:8767"; // TODO: change to domain name
+        var socket = new WebSocket(SERVER_LOCATION);
+
+        $(function() {
+            socket.onmessage = function (event) {
+                var j = JSON.parse(event.data);
+                $("#a").html(j.a);
+                $("#b").html(j.b);
+                $("#c").html(j.c);
+            }
+
+            var toSend = {};
+            var sent = false;
+            function sendMaybe() {
+                if (typeof toSend.c != 'undefined' && typeof toSend.s != 'undefined') {
+                    console.log("sent: ", toSend.c, toSend.s)
+                    socket.send(JSON.stringify(toSend));
+                }
+            }
+
+            $("#outPinC0").click(function () {
+                toSend.c = 0;
+                sendMaybe();
+            });
+            $("#outPinC1").click(function () {
+                toSend.c = 1;
+                sendMaybe();
+            });
+            $("#outPinS0").click(function () {
+                toSend.s = 0;
+                sendMaybe();
+            });
+            $("#outPinS1").click(function () {
+                toSend.s = 1;
+                sendMaybe();
+            });
+        });
+        </script>
+    </head>
+    <body class="container-fluid">
+
+    <div class="jumbotron">
+        <h1 class="row">The Human Computer</h1>
+        <h4 class="row">Binary Signal Transmission</h4>
+    </div>
+
+    <div class="row">
+        <h4 class="col col-xs-12">Instructions</h4>
+    </div>
+    <div class="row">
+        <div id="instructions" class="col col-xs-12">
+            Hello, world!
+        </div>
+    </div>
+
+    <table cellpadding="50">
+        <tr>
+            <td id="a"></td>
+            <td id="b"></td>
+        </tr>
+        <tr>
+            <td id="c"></td>
+            <td>
+                <button id="outPinC0">0</button>
+                <button id="outPinC1">1</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;">
+                <button id="outPinS0">0</button>
+                <button id="outPinS1">1</button>
+            </td>
+        </tr>
+    </table>
+
+    </table>
+
+    </body>
+</html>
