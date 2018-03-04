@@ -75,8 +75,18 @@ async def update():
             print("{} {} {}".format(r, rm.c, rm.s))
             for i in range(0, len(rm.connected)):
                 carry = (rm.c[i-1], 0)[i==0]
-                mssg = json.dumps({ "a":rm.a[i], "b":rm.b[i], "c":carry })
-                await rm.connected[i].send(mssg)
+                obj = {
+                    "a":rm.a[i], 
+                    "b":rm.b[i], 
+                    "c":carry,
+                    "id":i
+                }
+                mssg = json.dumps(obj)
+                try:
+                    await rm.connected[i].send(mssg)
+                except:
+                    rm.rm(rm.connected[i])
+                    i -= 1
         await asyncio.sleep(0.5)
 
 start_server = websockets.serve(handler, 'localhost', 8767)
