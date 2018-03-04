@@ -1,29 +1,43 @@
 import asyncio
-import signal
 import websockets
-import sys
 
-from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer, SimpleSSLWebSocketServer
+connected = []
+bits = []
+async def handler(websocket, path):
+    global connected
+    # Register.
+    clientId = len(connected)
+    bits.append(False)
+    connected.append(websocket)
+    try:
+        # Implement logic here.
+        while True:
+            mssg = await websocket.recv()
+            if (mssg == "true"):
+                #print("{} True".format(clientId))
+                bits[clientId] = True
+            else:
+                #print("{} False".format(clientId))
+                bits[clientId] = False
+            #await asyncio.wait([ws.send("Hello!") for ws in connected])
+    except:
+        # Unregister.
+        connected.remove(websocket)
 
-clients = set()
-class Server(WebSocket):
-    def handleMessage(self):
-        for client in clients:
-            if client != self:
-                client.sendMessage(self.data)
+async def update():
+    while True:
+        print("Update")
+        bit = False
+        for b in bits:
+            if (b):
+                bit = True
+                break
+        for ws in connected:
+            await ws.send(str(bit).lower())
+        await asyncio.sleep(0.1)
 
-    def handleConnected(self):
-        clients.add(self)
+start_server = websockets.serve(handler, 'localhost', 8765)
 
-    def handleClose(self):
-        clients.remove(self)
-
-
-server = SimpleWebSocketServer("localhost", 8765, Server)
-
-def close_sig_handler(signal, frame):
-    server.close()
-    sys.exit()
-
-signal.signal(signal.SIGINT, close_sig_handler)
-server.serveforever()
+asyncio.get_event_loop().run_until_complete(start_server)
+asyncio.async(update())
+asyncio.get_event_loop().run_forever()
