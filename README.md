@@ -6,7 +6,7 @@ This project was hacked together at Hacktech 2018 by
 * Faith Dennis
 * Emily Liang
 
-The Human Computer is tool created for use in computer-science education.  It uses (reasonably) large groups of people to illustrate how basic computations can be broken into simple parts.  We have created the following use cases:
+The Human Computer is a tool created for use in computer-science education.  It uses (reasonably) large groups of people to illustrate how basic computations can be broken into simple parts.  We have created the following use cases:
 
 * simple communication (simple_signal.html)
     - Demonstrates how voltage can carry information over time.
