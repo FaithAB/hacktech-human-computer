@@ -44,25 +44,30 @@
             var sent = false;
             function sendMaybe() {
                 if (typeof toSend.c != 'undefined' && typeof toSend.s != 'undefined') {
-                    console.log("sent: ", toSend.c, toSend.s)
-                    socket.send(JSON.stringify(toSend));
+                    toSend = JSON.stringify(toSend);
+                    console.log("sent: ", toSend);
+                    socket.send(toSend);
                 }
             }
 
             $("#outPinC0").click(function () {
                 toSend.c = 0;
+                $("#outPinC0, #outPinC1").prop('disabled', true);
                 sendMaybe();
             });
             $("#outPinC1").click(function () {
                 toSend.c = 1;
+                $("#outPinC0, #outPinC1").prop('disabled', true);
                 sendMaybe();
             });
             $("#outPinS0").click(function () {
                 toSend.s = 0;
+                $("#outPinS0, #outPinS1").prop('disabled', true);
                 sendMaybe();
             });
             $("#outPinS1").click(function () {
                 toSend.s = 1;
+                $("#outPinS0, #outPinS1").prop('disabled', true);
                 sendMaybe();
             });
         });
@@ -72,7 +77,7 @@
 
     <div class="jumbotron">
         <h1 class="row">The Human Computer</h1>
-        <h4 class="row">Binary Signal Transmission</h4>
+        <h4 class="row">Binary Adder</h4>
     </div>
 
     <div class="row">
