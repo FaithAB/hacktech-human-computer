@@ -26,9 +26,10 @@
             position: fixed;
             border: 1px solid #000000;
             padding:0.5em;
-            transition:background-color 0.15s;
+            transition:background-color 0.15s, 
+                box-shadow 0.15s, 
+                margin 0.15s;
             text-align:center;
-            vertical-align:center;
         }
         .edge b ,.edge span{
             opacity:0.94;
@@ -45,13 +46,16 @@
             display:block;
             width:100%;
             height:100%;
-            //transition:background-color 0.2s;
         }
         .hi{
             background-color:var(--hiColor);
+            box-shadow:10px 10px 5px #DDDDDD;
+            margin:-10px 10px 10px -10px;
         }
         .lo{
             background-color:var(--loColor);
+            box-shadow:3px 3px 3px #EEEEEE;
+            margin:0;
         }
         .correct{
             background-color:var(--themeGreen);
@@ -66,7 +70,8 @@
             --loColor:#111111;
         }
         .right {
-            right: 0;
+            right: -10px;
+            padding-right:10px;
             top:1.5in;
             width:1in;
             height:2in;
@@ -90,7 +95,7 @@
             --loColor:#111111;
         }
         .bottom {
-            bottom: 0;
+            bottom: -10px;
             left:30%;
             width:2in;
             height:1in;
