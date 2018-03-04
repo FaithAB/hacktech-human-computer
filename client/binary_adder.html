@@ -23,8 +23,8 @@
             background: #eeeeee;
         }
 
-        .pin {
-            width: 100%;
+        .right-align {
+            text-align: right;
         }
         </style>
 
@@ -33,20 +33,42 @@
         var socket = new WebSocket(SERVER_LOCATION);
 
         $(function() {
-            $("#clearData").click(function () {
-                $("#inData").html();
-            });
-
             socket.onmessage = function (event) {
-                $("#inData").append(event.data);
-                console.log(event.data);
+                var j = JSON.parse(event.data);
+                $("#a").html(j.a);
+                $("#b").html(j.b);
+                $("#c").html(j.c);
             }
 
-            $("#outPin0").click(function () {
-                socket.send("0");
+            var toSend = {};
+            var sent = false;
+            function sendMaybe() {
+                if (typeof toSend.c != 'undefined' && typeof toSend.s != 'undefined') {
+                    toSend = JSON.stringify(toSend);
+                    console.log("sent: ", toSend);
+                    socket.send(toSend);
+                }
+            }
+
+            $("#outPinC0").click(function () {
+                toSend.c = 0;
+                $("#outPinC0, #outPinC1").prop('disabled', true);
+                sendMaybe();
             });
-            $("#outPin1").click(function () {
-                socket.send("1");
+            $("#outPinC1").click(function () {
+                toSend.c = 1;
+                $("#outPinC0, #outPinC1").prop('disabled', true);
+                sendMaybe();
+            });
+            $("#outPinS0").click(function () {
+                toSend.s = 0;
+                $("#outPinS0, #outPinS1").prop('disabled', true);
+                sendMaybe();
+            });
+            $("#outPinS1").click(function () {
+                toSend.s = 1;
+                $("#outPinS0, #outPinS1").prop('disabled', true);
+                sendMaybe();
             });
         });
         </script>
@@ -55,7 +77,7 @@
 
     <div class="jumbotron">
         <h1 class="row">The Human Computer</h1>
-        <h4 class="row">Binary Signal Transmission</h4>
+        <h4 class="row">Binary Adder</h4>
     </div>
 
     <div class="row">
@@ -67,44 +89,27 @@
         </div>
     </div>
 
-    <div class="row">
-        <h4 class="col col-xs-12">Interface</h4>
-    </div>
-    <div class="row interface">
-        <div class="col col-xs-1">
-            IN
-        </div>
-        <div class="col col-xs-2">
-            <a id="clearData" class="btn btn-primary">
-                Clear
-            </a>
-        </div>
-        <div class="col col-xs-8">
-            <pre id="inData" class="pin">
-            </pre>
-        </div>
-        <div class="col col-xs-1">
-            &larr;
-        </div>
-    </div>
-    <div class="row interface">
-        <div class="col col-xs-1">
-            OUT
-        </div>
-        <div class="col col-xs-5">
-            <a id="outPin0" class="pin btn btn-success btn-lg">
-                0
-            </a>
-        </div>
-        <div class="col col-xs-5">
-            <a id="outPin1" class="pin btn btn-danger btn-lg">
-                1
-            </a>
-        </div>
-        <div class="col col-xs-1">
-            &rarr;
-        </div>
-    </div>
+    <table cellpadding="50">
+        <tr>
+            <td id="a">Loading...</td>
+            <td id="b">Loading...</td>
+        </tr>
+        <tr>
+            <td id="c">Loading...</td>
+            <td>
+                <button id="outPinC0">0</button>
+                <button id="outPinC1">1</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;">
+                <button id="outPinS0">0</button>
+                <button id="outPinS1">1</button>
+            </td>
+        </tr>
+    </table>
+
+    </table>
 
     </body>
 </html>
