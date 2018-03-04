@@ -111,7 +111,7 @@
         </style>
 
         <script>
-        let SERVER_LOCATION = "ws://localhost:8767"; // TODO: change to domain name
+        let SERVER_LOCATION = "ws://ec2-54-193-50-156.us-west-1.compute.amazonaws.com:8767";
         var socket = new WebSocket(SERVER_LOCATION);
 
         socket.onopen = function () {
