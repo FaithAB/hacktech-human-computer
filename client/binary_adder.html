@@ -81,9 +81,9 @@
             var toSend = {};
             function sendMaybe() {
                 if (typeof toSend.c != 'undefined' && typeof toSend.s != 'undefined') {
-                    toSend = JSON.stringify(toSend);
-                    console.log("sent: ", toSend);
-                    socket.send(toSend);
+                    var toSendStr = JSON.stringify(toSend);
+                    console.log("sent: ", toSendStr);
+                    socket.send(toSendStr);
                 }
             }
 
