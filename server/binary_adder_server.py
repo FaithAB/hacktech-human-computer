@@ -81,11 +81,12 @@ async def update():
                     "b":rm.b[i], 
                     "c":carry,
                     "s":rm.s,
-                    "id":i
+                    "id":i,
+                    "correct":rm.s0==rm.s
                 }
                 mssg = json.dumps(obj)
                 await rm.connected[i].send(mssg)
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(0.1)
 
 start_server = websockets.serve(handler, 'localhost', 8767)
 
