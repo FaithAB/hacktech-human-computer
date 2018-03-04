@@ -1,42 +1,29 @@
 import asyncio
+import signal
 import websockets
+import sys
 
-# Actually handles incoming connections
-connected = set()
-async def handler(websocket, path):
-    global connected
-    # Register.
-    connected.add(websocket)
-    print("Connected: {}".format(len(connected)))
-    #try:
-    #    # Implement logic here.
-    #    await asyncio.wait([ws.send("Hello!") for ws in connected])
-    #    await asyncio.sleep(1)
-    #finally:
-    #    # Unregister.
-    #    connected.remove(websocket)
-    #    print("Connected: {}".format(len(connected)))
+from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer, SimpleSSLWebSocketServer
 
-bit = False # Single bit we're trying to flip
-async def update():
-    global connected
-    disconnected = set()
-    while True:
-        print("Update: {}".format(len(connected)))
-        for ws in connected:
-            try:
-                mssg = await ws.recv()
-                await ws.send(str(bit))
-            except Exception as e:
-                print(e)
-                disconnected.add(ws)
-        for ws in disconnected:
-            connected.remove(ws)
-            print("Connected: {}".format(len(connected)))
-        await asyncio.sleep(1)
+clients = set()
+class Server(WebSocket):
+    def handleMessage(self):
+        for client in clients:
+            if client != self:
+                client.sendMessage(self.data)
 
-start_server = websockets.serve(handler, 'localhost', 8765)
+    def handleConnected(self):
+        clients.add(self)
 
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.async(update())
-asyncio.get_event_loop().run_forever()
+    def handleClose(self):
+        clients.remove(self)
+
+
+server = SimpleWebSocketServer("localhost", 8765, Server)
+
+def close_sig_handler(signal, frame):
+    server.close()
+    sys.exit()
+
+signal.signal(signal.SIGINT, close_sig_handler)
+server.serveforever()
