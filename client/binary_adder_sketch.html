@@ -44,21 +44,26 @@
             var sent = false;
             function sendMaybe() {
                 if (typeof toSend.c != 'undefined' && typeof toSend.s != 'undefined') {
+                    console.log("sent: ", toSend.c, toSend.s)
                     socket.send(JSON.stringify(toSend));
                 }
             }
 
             $("#outPinC0").click(function () {
                 toSend.c = 0;
+                sendMaybe();
             });
             $("#outPinC1").click(function () {
                 toSend.c = 1;
+                sendMaybe();
             });
             $("#outPinS0").click(function () {
                 toSend.s = 0;
+                sendMaybe();
             });
             $("#outPinS1").click(function () {
                 toSend.s = 1;
+                sendMaybe();
             });
         });
         </script>
