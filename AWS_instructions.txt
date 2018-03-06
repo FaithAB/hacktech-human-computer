@@ -1,0 +1,12 @@
+- Spin up an EC 2 instance in North California
+- SCP over all the Python server scripts
+    - Make sure to change "localhost" on both client and server to the AWS public DNS, e.g. ec2-54-193-50-156.us-west-1.compute.amazonaws.com 
+- Install prereqs on EC2:
+    - sudo yum install python36
+    - sudo yum install python36-pip
+    - pip-3.6 install websockets
+- Run your scripts in the background, detached from the console, like so
+    - nohup python3 binary_adder_server.py & 
+    - nohup python3 simple_transmit_server.py &
+- exit the SSH
+
